@@ -1,0 +1,80 @@
+{% extends "base.html" %} 
+{% block contents %}
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Woong's Market</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarColor02">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/board/">Board</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/product/">Prodct</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/order/">Order</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="text" placeholder="Search">
+      <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+<br>
+<div class="row mt-5">
+  <div class="col-12 text-center">
+    <h1>Market</h1>
+    {% if request.session.user %}
+    <h5>Welcome!! {{ email }}</h5>
+    {% else %}
+    <h5>Welcome!!</h5>
+    {% endif %}
+  </div>
+</div>
+<div class="row mt-5">
+  {% if request.session.user %}
+  <div class="col-12">
+    <button
+      class="btn btn-primary btn-block"
+      onclick="location.href='/logout/'"
+      >
+      Logout
+    </button>
+  </div>
+  {% else %}
+  <div class="col-6">
+    <button
+      class="btn btn-primary btn-block"
+      onclick="location.href='/login/'"
+    >
+      Login
+    </button>
+  </div>
+  <div class="col-6">
+    <button
+      class="btn btn-primary btn-block"
+      onclick="location.href='/register/'"
+    >
+      회원가입
+    </button>
+  </div>
+  {% endif %}
+</div>
+<div class="row mt-1">
+  <div class="col-12">
+    <button
+      class="btn btn-primary btn-block"
+      onclick="location.href='/product/'"
+    >
+      상품보기
+    </button>
+  </div>
+</div>
+{% endblock %}

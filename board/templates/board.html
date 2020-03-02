@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% load humanize %}
+<!-- {% block header %}
+<script>
+  function board_detail(id){
+    $.ajax({
+      url: "/api/board/" + id,
+      success: function( result ) {
+        $("#board-" + id).popover({
+          html: true,
+          content: result.name + "<br/>" + result.price
+        }).popover('show');
+      }
+    });
+  }
+  function board_leave(id){
+    $("#board-" + id).popover('hide');
+  }
+  $(document).ready(function(){});
+</script>
+{% endblock %} -->
+{% block contents %}
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+  <a class="navbar-brand" href="/">Woong's Market</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarColor02">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="/board/">Board</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/product/">Prodct</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/order/">Order</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="text" placeholder="Search">
+      <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+<br>
+<div class="row mt-5">
+  <div class="col-12">
+    <table class="table table-light">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">제목</th>
+          <th scope="col">작성자</th>
+          <th scope="col">등록날짜</th>
+        </tr>
+      </thead>
+      <tbody class="text-dark">
+        {% for board in board_list %}
+        <tr>
+          <th scope="row">{{ board.id }}</th>
+          <th scope="row"><a href="/board/{{ board.id }}">{{ board.title }}</a></th>
+          <th scope="row">{{ board.writer.nickname }}</th>
+          <th scope="row">{{ board.register_date|date:'Y-m-d H:i' }}</th>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% if is_paginated %}
+<div>
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+      <a class="page-link" href="#">&laquo;</a>
+    </li>
+    {% endif %}
+    {% for i in paginator.page_range %}
+      {% if page_obj.number == i %}
+        <li class="page-item active">
+          <a class="page-link">{{ i }} <span class="sr-only">(current)</span></a>
+        </li>
+      {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+      <a class="page-link" href="#">&raquo;</a>
+    </li>
+    {% endif %}
+  </ul>
+</div>
+{% endif %}
+<div class="row">
+  <div class="col-12">
+    <button type="button" class="btn btn-primary" onclick="location.href='/board/write/'">글쓰기</button>
+    <!-- <a href="/product/">목록보기</a> -->
+  </div>
+</div>
+{% endblock %}
